@@ -6,16 +6,27 @@ import java.net.Socket;
 
 public class Client {
     private Client client = null;
-    String host = "netology.homework";
-    Settings settings = new Settings();
-    String exit = "/exit";
+    private final String host = "netology.homework";
+    private final Settings settings = new Settings();
+    private String name;
+    private final String exit = "/exit";
 
     public Client(){
-        client = new Client();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void createClient(){
         String response;
+        System.out.println("Выберите имя для отображения в чате");
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
+            name = br.readLine();
+        } catch (IOException e) {
+            System.out.println("Имя введено не корректно");
+        }
+
         while(true) {
             try (Socket clientSocket = new Socket(host, settings.port);
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -24,7 +35,9 @@ public class Client {
                 while(in.ready()){
                     response = in.readLine();
                     if(!response.equals(exit)){
-
+                        if(response.equals("Connected To Server")){
+                            if(clientSocket.)
+                        }
                     }
                     else {
                         return;
@@ -37,4 +50,7 @@ public class Client {
         }
     }
 
+    private String chooseNameToSend(){
+
+    }
 }

@@ -23,6 +23,7 @@ public class Server {
                  BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))){
                 assert log != null;
                 log.log("New connection accepted");
+                clientSocket.
                 while(true){
                     out.println("Write your name");
                 }
