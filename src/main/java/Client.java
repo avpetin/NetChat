@@ -36,7 +36,7 @@ public class Client {
                     response = in.readLine();
                     if(!response.equals(exit)){
                         if(response.equals("Connected To Server")){
-                            if(clientSocket.)
+
                         }
                     }
                     else {
@@ -51,6 +51,6 @@ public class Client {
     }
 
     private String chooseNameToSend(){
-
+        return null;
     }
 }
