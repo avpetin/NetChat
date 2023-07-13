@@ -34,10 +34,8 @@ public class Client {
             ) {
                 while(in.ready()){
                     response = in.readLine();
-                    if(!response.equals(exit)){
-                        if(response.equals("Connected To Server")){
+                    if(response.equals("Connected To Server")){
 
-                        }
                     }
                     else {
                         return;
