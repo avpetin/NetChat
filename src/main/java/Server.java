@@ -29,7 +29,7 @@ public class Server {
                     Thread thread = new Thread(() -> {
                         try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
                         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))){
-                            sendUserList(out);
+                            sendUserList(out); // посылаем новому юзеру список участноков чата
 
                             String userName = in.readLine();
                             server.addUserName(userName);

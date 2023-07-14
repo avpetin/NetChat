@@ -8,21 +8,20 @@ public class Client {
     private Client client = null;
     private final String host = "netology.homework";
     private final Settings settings = new Settings();
-    private String name;
+    private String userName;
     private final String exit = "/exit";
 
     public Client(){
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
     public void createClient(){
-        String response;
         System.out.println("Выберите имя для отображения в чате");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
-            name = br.readLine();
+            userName = br.readLine();
         } catch (IOException e) {
             System.out.println("Имя введено не корректно");
         }
@@ -30,25 +29,20 @@ public class Client {
         while(true) {
             try (Socket clientSocket = new Socket(host, settings.port);
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                 BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))
             ) {
-                while(in.ready()){
-                    response = in.readLine();
-                    if(response.equals("Connected To Server")){
-
-                    }
-                    else {
-                        return;
-                    }
-                }
+                System.out.println(in.readLine());
+                out.println("[" + userName + "]: ");
+                String userResponse;
+                do {
+                    userResponse = consoleReader.readLine();
+                    out.write(userResponse);
+               } while (!userResponse.equals("exit"));
 
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-    }
-
-    private String chooseNameToSend(){
-        return null;
     }
 }
