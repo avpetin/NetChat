@@ -22,43 +22,37 @@ public class Server {
 
     public Server connectToServer(int port){
         try (ServerSocket serverSocket = new ServerSocket(port)){
-            while(true) {
-                try (Socket clientSocket = serverSocket.accept()){
-                    assert log != null;
-                    log.log("New connection accepted");
-                    Thread thread = new Thread(() -> {
-                        try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
-                        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))){
-                            sendUserList(out); // посылаем новому юзеру список участноков чата
+            try (Socket clientSocket = serverSocket.accept();
+                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+            ){
+                assert log != null;
+                log.log("New connection accepted");
 
-                            String userName = in.readLine();
-                            server.addUserName(userName);
+                sendUserList(out); // посылаем новому юзеру список участноков чата
 
-                            String serverMessage = "New user connected: " + userName;
-                            server.broadcast(serverMessage, Thread.currentThread());
+                String userName = in.readLine();
+                server.addUserName(userName);
 
-                            String clientMessage;
+                String serverMessage = "New user connected: " + userName;
+                server.broadcast(serverMessage, Thread.currentThread());
 
-                            do {
-                                clientMessage = in.readLine();
-                                serverMessage = "[" + userName + "]: " + clientMessage;
-                                server.broadcast(serverMessage, Thread.currentThread());
+                String clientMessage;
 
-                            } while (!clientMessage.equals("/exit"));
+                do {
+                    clientMessage = in.readLine();
+                    serverMessage = "[" + userName + "]: " + clientMessage;
+                    server.broadcast(serverMessage, Thread.currentThread());
+                } while (!clientMessage.equals("/exit"));
 
-                            server.removeUser(userName, Thread.currentThread());
-                            clientSocket.close();
+                server.removeUser(userName, Thread.currentThread());
+                clientSocket.close();
 
-                            serverMessage = userName + " has quitted.";
-                            server.broadcast(serverMessage, Thread.currentThread());
-                        }
-                        catch (IOException e){
-                            e.printStackTrace();
-                        }
-                    });
-                    userThreads.add(thread);
-                    thread.start();
-                }
+                serverMessage = userName + " has quitted.";
+                server.broadcast(serverMessage, Thread.currentThread());
+            }
+            catch (IOException e){
+                 e.printStackTrace();
             }
         }
         catch (IOException e){

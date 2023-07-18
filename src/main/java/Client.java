@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class Client {
     private Client client = null;
-    private final String host = "netology.homework";
+    private final String host = "127.0.0.1";
     private final Settings settings = new Settings();
     private String userName;
     private final String exit = "/exit";
@@ -26,14 +26,14 @@ public class Client {
             System.out.println("Имя введено не корректно");
         }
 
-        while(true) {
+ //       while(true) {
             try (Socket clientSocket = new Socket(host, settings.port);
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                  BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))
             ) {
-                System.out.println(in.readLine());
-                out.println("[" + userName + "]: ");
+//                System.out.println(in.readLine());
+//                out.println("[" + userName + "]: ");
                 String userResponse;
                 do {
                     userResponse = consoleReader.readLine();
@@ -43,6 +43,6 @@ public class Client {
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }
+ //       }
     }
 }

@@ -1,4 +1,2 @@
 8090
-
-https://www.codejava.net/java-se/networking/how-to-create-a-chat-console-application-in-java-using-socket
-https://www.codejava.net/java-se/networking/java-socket-client-examples-tcp-ip
+127.0.0.1

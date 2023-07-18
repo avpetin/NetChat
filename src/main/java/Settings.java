@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Settings {
-    int port = 0;
+    int port = 8090;
     public int setPortFromFile(String settings){
         try (BufferedReader fileReader = new BufferedReader(new FileReader(settings))){
             if (fileReader.ready()) {
