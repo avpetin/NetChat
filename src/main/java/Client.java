@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
     private Client client = null;
@@ -20,29 +21,25 @@ public class Client {
 
     public void createClient(){
         System.out.println("Выберите имя для отображения в чате");
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
-            userName = br.readLine();
+        try (Socket clientSocket = new Socket(host, settings.port);
+             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        ) {
+            Scanner scanner = new Scanner(System.in);
+            userName = scanner.nextLine();
+            out.println(userName);
+
+            String users = in.readLine();
+            System.out.println(users);
+
+            String userResponse;
+            do {
+                System.out.println(in.readLine());
+                userResponse = scanner.nextLine();
+                out.write(userResponse);
+            } while (!userResponse.equals("exit"));
         } catch (IOException e) {
-            System.out.println("Имя введено не корректно");
+             System.out.println(e.getMessage());
         }
-
- //       while(true) {
-            try (Socket clientSocket = new Socket(host, settings.port);
-                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))
-            ) {
-//                System.out.println(in.readLine());
-//                out.println("[" + userName + "]: ");
-                String userResponse;
-                do {
-                    userResponse = consoleReader.readLine();
-                    out.write(userResponse);
-               } while (!userResponse.equals("exit"));
-
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
- //       }
     }
 }
